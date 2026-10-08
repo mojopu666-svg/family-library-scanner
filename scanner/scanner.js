@@ -8,7 +8,12 @@
   const config = window.FAMILY_SCANNER_CONFIG || {};
   const allowed = Array.isArray(config.allowedLibraryOrigins) ? config.allowedLibraryOrigins : [];
   let validOrigin = false;
-  try { const u = new URL(returnOrigin); validOrigin = u.protocol === 'https:' && u.origin === returnOrigin && allowed.includes(returnOrigin); } catch (_) {}
+  let gasOrigin = false;
+  try {
+    const u = new URL(returnOrigin);
+    gasOrigin = /^n-[a-z0-9-]+-script\.googleusercontent\.com$/i.test(u.hostname);
+    validOrigin = u.protocol === 'https:' && u.origin === returnOrigin && (allowed.includes(returnOrigin) || gasOrigin);
+  } catch (_) {}
   const canReturn = validOrigin && /^[a-f0-9]{32}$/.test(nonce) && !!window.opener;
   let current = null, loading = null, readIsbn = '', sent = false, acked = false;
   function isbn13(value) {
@@ -124,7 +129,10 @@
   window.addEventListener('pagehide', stop); window.addEventListener('beforeunload', stop);
   document.addEventListener('visibilitychange', () => { if (document.hidden && current) { stop(); status('カメラを停止しました。スキャン開始で再開できます。'); } });
   if (!canReturn) {
-    $('return-status').textContent = '自動送信の設定がないため、読み取り後はISBNをコピーして本棚へ戻ります。';
-    if (returnOrigin && !allowed.includes(returnOrigin)) status('接続元の許可設定が必要です。接続元: ' + returnOrigin + '　スキャン自体は試せます。');
+    $('return-status').textContent = '自動送信を利用できない場合は、読み取り後にISBNをコピーして本棚へ戻れます。';
+    if (!returnOrigin) status('本棚からライブスキャンを開いてください。スキャン自体は試せます。');
+    else if (!validOrigin) status('接続元を確認できません。接続元: ' + returnOrigin + '　スキャン自体は試せます。');
+    else if (!/^[a-f0-9]{32}$/.test(nonce)) status('接続用トークンを確認できません。本棚からライブスキャンを開き直してください。');
+    else if (!window.opener) status('ブラウザが元の本棚タブへの接続を保持していません。スキャン自体は試せます。');
   }
 })();
