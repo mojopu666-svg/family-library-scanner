@@ -123,5 +123,5 @@
   });
   window.addEventListener('pagehide', stop); window.addEventListener('beforeunload', stop);
   document.addEventListener('visibilitychange', () => { if (document.hidden && current) { stop(); status('カメラを停止しました。スキャン開始で再開できます。'); } });
-  if (!canReturn) $('return-status').textContent = '自動送信の設定がないため、読み取り後はISBNをコピーして本棚へ戻ります。';
+  if (!canReturn) {\n    $('return-status').textContent = '自動送信の設定がないため、読み取り後はISBNをコピーして本棚へ戻ります。';\n    if (returnOrigin && !allowed.includes(returnOrigin)) status('接続元の許可設定が必要です。接続元: ' + returnOrigin + '　スキャン自体は試せます。');\n  }
 })();
