@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="referrer" content="no-referrer">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self'; media-src 'self' blob:; connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
+  <title>ライブISBNスキャン · 家族の本棚</title>
+  <link rel="stylesheet" href="scanner.css">
+  <script src="config.js" defer></script>
+  <script src="scanner.js" defer></script>
+</head>
+<body>
+<main>
+  <header><p class="eyebrow">FAMILY LIBRARY</p><h1>ライブISBNスキャン</h1><p>本の裏側にある、978 / 979から始まるバーコードを枠へ合わせてください。</p></header>
+  <div id="preview" aria-label="カメラプレビュー"><div class="scan-frame" aria-hidden="true"></div><p id="placeholder">背面カメラで読み取ります</p></div>
+  <p id="status" role="status" aria-live="polite">スキャン開始を押すとカメラの許可を確認します。</p>
+  <section id="result" hidden aria-label="読み取ったISBN"><h2>ISBNを読み取りました</h2><input id="isbn-result" aria-label="読み取ったISBN" readonly><p id="return-status" role="status" aria-live="polite"></p><button id="copy" type="button">ISBNをコピー</button></section>
+  <div class="actions"><button id="start" type="button" class="primary">スキャン開始</button><button id="cancel" type="button">キャンセル</button><button id="return" type="button">本棚へ戻る</button></div>
+  <p class="note">シャッター・写真保存は不要です。映像はこの端末内だけで解析し、画像を送信しません。</p>
+  <p class="note">ライブカメラを利用できない場合は、元の本棚タブで「画像から読み取る」またはISBN手入力をご利用ください。戻るボタンで切り替わらない場合は、タブを手動で切り替えてください。</p>
+  <noscript>JavaScriptを有効にするか、元の本棚でISBNを手入力してください。</noscript>
+</main>
+</body>
+</html>
