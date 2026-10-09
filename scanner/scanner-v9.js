@@ -132,7 +132,11 @@
   $('cancel').addEventListener('click', () => { stop(); status('スキャンを停止しました。元の本棚で画像読み取り・手入力も使えます。'); });
   $('return').addEventListener('click', () => {
     stop();
-    status('元の「家族の本棚」タブへ切り替えてください。');
+    status('元の「家族の本棚」タブへ戻ります…');
+    try { window.close(); } catch (_) {}
+    setTimeout(() => {
+      if (!window.closed) status('このタブを閉じて、元の「家族の本棚」タブへ切り替えてください。');
+    }, 350);
   });
   $('copy').addEventListener('click', async () => {
     if (!readIsbn) return;
